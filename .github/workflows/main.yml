@@ -1,0 +1,22 @@
+name: GitHub Actions Demo
+run-name: Deploy to ${{ inputs.deploy_target }} by ${{ github.actor }}
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: demo-runner
+    steps:
+      - name: Print 
+        run: |
+          cd /tmp
+          echo "This is a test" >> test.txt
+      - name: Is Okay
+        if: success()
+        run: |
+          curl -X POST -h 'content-type: application/json' -d '{"content": "Deploy success"}' ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Is Not Okay
+        if: failure()
+        run: |
+          curl -X POST -h 'content-type: application/json' -d '{"content": "Deploy failed"}' ${{ secrets.DISCORD_WEBHOOK }}
