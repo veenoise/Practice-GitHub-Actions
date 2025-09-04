@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: demo-runner
     steps:
       - name: Print 
         run: |
@@ -15,8 +15,8 @@ jobs:
       - name: Is Okay
         if: success()
         run: |
-          curl -X POST -h 'content-type: application/json' -d '{"content": "Deploy success"}' ${{ secrets.DISCORD_WEBHOOK }}
+          curl -X POST -H 'content-type: application/json' -d '{"content": "Deploy success"}' ${{ secrets.DISCORD_WEBHOOK }}
       - name: Is Not Okay
         if: failure()
         run: |
-          curl -X POST -h 'content-type: application/json' -d '{"content": "Deploy failed"}' ${{ secrets.DISCORD_WEBHOOK }}
+          curl -X POST -H 'content-type: application/json' -d '{"content": "Deploy failed"}' ${{ secrets.DISCORD_WEBHOOK }}
